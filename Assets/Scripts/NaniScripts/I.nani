@@ -1,0 +1,43 @@
+#I-1
+@streamingPlay "I-1"
+@speedButtonEnable
+@videoControll StartLoopTime:0 EndLoopTime:10 isLooping:false
+@forcedChoice choiceTime:3
+@waitMovie choiceTime:3
+@EndMovie
+@goto .I-1-Q
+#I-1-Q
+@streamingPlay "I-1-Q"
+@videoControll StartLoopTime:0 EndLoopTime:8 isLooping:true
+@forcedChoice choiceTime:4
+@waitMovie choiceTime:4
+@speedButtonDisable
+@choiceDLC PackId1 button:AvButton handler:AvDisableButtonList goto:.I-1-2
+@choiceDLC PackId2 button:AvButton handler:AvDisableButtonList goto:.I-1-1
+@reBuildChoice
+@stop
+#I-1-1
+@streamingPlay "I-1-1"
+@speedButtonEnable
+@videoControll StartLoopTime:0 EndLoopTime:10 isLooping:false
+@forcedChoice choiceTime:3
+@waitMovie choiceTime:3
+@EndMovie
+@goto W.W-1
+#I-1-2
+@streamingPlay "I-1-2"
+@speedButtonEnable
+@videoControll StartLoopTime:0 EndLoopTime:10 isLooping:false
+@forcedChoice choiceTime:3
+@waitMovie choiceTime:3
+@EndMovie
+@goto .I-1-2-O2
+#I-1-2-O2
+@streamingPlay "I-1-2-O2"
+@speedButtonEnable
+@videoControll StartLoopTime:0 EndLoopTime:10 isLooping:false
+@forcedChoice choiceTime:3
+@waitMovie choiceTime:3
+@EndMovie
+@goto W.W-1
+

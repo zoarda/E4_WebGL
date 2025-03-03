@@ -1,0 +1,11 @@
+videoDictionary:
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/a83c781b-90ab-4c6d-83b6-f261f4999e4b.webm/a83c781b-90ab-4c6d-83b6-f261f4999e4b.m3u8: "I-1"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/d6cb542d-e0a6-4cd6-b02c-9c2ff90dd351.webm/d6cb542d-e0a6-4cd6-b02c-9c2ff90dd351.m3u8: "I-1-1"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/92acd819-0a00-4b6a-a926-c9edac94b7b6.webm/92acd819-0a00-4b6a-a926-c9edac94b7b6.m3u8: "I-1-2"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/8f1dc61d-0de7-4c4d-9128-6b378bff3d9a.webm/8f1dc61d-0de7-4c4d-9128-6b378bff3d9a.m3u8: "I-1-2-O2"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/7df06b13-1a0f-4877-8922-b14a6a82c871.webm/7df06b13-1a0f-4877-8922-b14a6a82c871.m3u8: "I-1-Q"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/c9b72aec-7675-4cbc-a35c-46a35ab28e36.webm/c9b72aec-7675-4cbc-a35c-46a35ab28e36.m3u8: "W-1"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/e0dca4e2-0324-48e8-b710-c595f1accf5f.webm/e0dca4e2-0324-48e8-b710-c595f1accf5f.m3u8: "W-1-1"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/7c145d39-19bc-4b2e-934d-b8cbebca8418.webm/7c145d39-19bc-4b2e-934d-b8cbebca8418.m3u8: "W-1-2"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/10641bbb-8d8a-4904-aed8-ce90db06515e.webm/10641bbb-8d8a-4904-aed8-ce90db06515e.m3u8: "W-1-2-O2"
+  https://1001732524888-cloudfront-8nkhw4mg.d-apm.com/hls/5366d219-b08a-48c3-b4cc-81dca5a5e12e.webm/5366d219-b08a-48c3-b4cc-81dca5a5e12e.m3u8: "W-1-Q"

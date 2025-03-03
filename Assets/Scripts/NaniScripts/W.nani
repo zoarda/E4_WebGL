@@ -1,0 +1,50 @@
+#W-1
+@streamingPlay "W-1"
+@speedButtonEnable
+@videoControll StartLoopTime:0 EndLoopTime:10 isLooping:false
+@forcedChoice choiceTime:3
+@waitMovie choiceTime:3
+@EndMovie
+@goto .W-1-Q
+#W-1-Q
+@streamingPlay "W-1-Q"
+@videoControll StartLoopTime:0 EndLoopTime:8 isLooping:true
+@forcedChoice choiceTime:4
+@waitMovie choiceTime:4
+@speedButtonDisable
+@choiceDLC PackId3 button:AvButton handler:AvDisableButtonList goto:.W-1-1
+@choiceDLC PackId4 button:AvButton handler:AvDisableButtonList goto:.W-1-2
+@reBuildChoice
+@stop
+#W-1-1
+@streamingPlay "W-1-1"
+@speedButtonEnable
+@videoControll StartLoopTime:0 EndLoopTime:10 isLooping:false
+@forcedChoice choiceTime:3
+@waitMovie choiceTime:3
+@EndMovie
+@goto .W-1-2-O2
+#W-1-2
+@streamingPlay "W-1-2"
+@speedButtonEnable
+@videoControll StartLoopTime:0 EndLoopTime:10 isLooping:false
+@forcedChoice choiceTime:3
+@waitMovie choiceTime:3
+@EndMovie
+@goto .EndGameA
+#W-1-2-O2
+@streamingPlay "W-1-2-O2"
+@speedButtonEnable
+@videoControll StartLoopTime:0 EndLoopTime:10 isLooping:false
+@forcedChoice choiceTime:3
+@waitMovie choiceTime:3
+@EndMovie
+@goto .EndGameA
+@stop
+
+# EndGameA
+@despawn LovePlayPage
+@spawn GameClearPage
+@gameClearBack confirmScript:S confirmLabel:null confirmText:PackId95  cancelScript:StartGame cancelLabel:null cancelText:PackId96  saying:PackId608 name:PackId102 cancel:PackId512 confirm:PackId511 imageTitle:PackId607
+@speedButtonDisable
+@stop
