@@ -10,7 +10,7 @@ public class StartNani : MonoBehaviour
 {
     [Header("Page")]
 
-    public GameObject GalleryPage, LobbyPage,
+    public GameObject GalleryPage, LobbyPage, OpenCheck,
     VideoImage, ErrorPage, ChapterPage, OpenPage, CheckPage,
     InGameCheckPage, OptionPage, GameSettingPage;
     public GameObject PreLanguageToggle, SelectOption, BlackBg, LanguageToggle;
@@ -24,7 +24,7 @@ public class StartNani : MonoBehaviour
     public Button Btn_SpeedViewBack, Btn_ChoiceViewBack, Btn_Option,
     Btn_EndGame, Btn_Artist, Btn_OK, Btn_No, Btn_InGameOK, Btn_InGameNo, Btn_Language, Btn_OptionReturn, Btn_LanguageReturn, Btn_ArtistReturn, Btn_Error,
      Btn_SelectOption, Btn_Return, Btn_StartSelect, Btn_StartGame, Btn_GameSetting;
-    public Button videoSkip;
+    public Button videoSkip, btnCheck;
     //  Btn_C1_VB, Btn_C2_VB, Btn_C3_VB, Btn_C4_VB, Btn_C5_VB,
     [Header("Image")]
     [SerializeField] public Image BG;
@@ -39,6 +39,7 @@ public class StartNani : MonoBehaviour
     public int languageIndex = 0;
     public string lastChoiceName;
     public Text txtSubtitles;
+    public bool isLoggedIn = false; // 預設為未登入
 
     // ChapterPage chapterPage;
 
@@ -149,17 +150,16 @@ public class StartNani : MonoBehaviour
     }
     async void Init()
     {
-        // var urlData = ServerManager.Instance.urlData;
-        // if (!string.IsNullOrEmpty(urlData.token) && !string.IsNullOrEmpty(urlData.language))
-        // {
-        //     Debug.Log($"Token: {urlData.token}, Language: {urlData.language}");
-        // }
-        // else
-        // {
-        //     Debug.LogError("Failed to retrieve URL data.");
-        // }
-        // string absoluteURL = Application.absoluteURL;
-
+        var urlData = ServerManager.Instance.urlData;
+        if (!string.IsNullOrEmpty(urlData.token) && !string.IsNullOrEmpty(urlData.language))
+        {
+            Debug.Log($"Token: {urlData.token}, Language: {urlData.language}");
+        }
+        else
+        {
+            Debug.LogWarning("Failed to retrieve URL data.");
+        }
+        string absoluteURL = Application.absoluteURL;
         //初始化nani
         await RuntimeInitializer.InitializeAsync();
         //自適應螢幕大小
@@ -174,13 +174,20 @@ public class StartNani : MonoBehaviour
             camera.UICamera.gameObject.AddComponent<AspectRatioControl>();
         //尋找存檔紀錄
         // SaveData saveData = await YamlLoader.LoadYaml<SaveData>(Application.persistentDataPath + "/SaveData.yaml");
-        // ServerManager.SaveData saveData = await ServerManager.Instance.Load();
-        // saveData.friendship = allFriendship();
-        // 將設置好的友誼值存入Manager變數
-        // var varManager = Engine.GetService<ICustomVariableManager>();
-        // varManager.TrySetVariableValue("friendship", saveData.friendship);
-        // friednshipList.Add(saveData.friendship);
-        //初始化語言 並設置語言
+        if (isLoggedIn)
+        {
+            ServerManager.SaveData saveData = await ServerManager.Instance.Load();
+            saveData.friendship = allFriendship();
+            // 將設置好的友誼值存入Manager變數
+            var varManager = Engine.GetService<ICustomVariableManager>();
+            varManager.TrySetVariableValue("friendship", saveData.friendship);
+            friednshipList.Add(saveData.friendship);
+            await SelectOptionSwtich(saveData);
+        }
+        else
+        {
+            Debug.Log("nologinmode");
+        }
         await LanguageManager.Init();
         var Player = Engine.GetService<IScriptPlayer>();
         // await Player.PreloadAndPlayAsync("StartGame");
@@ -203,7 +210,11 @@ public class StartNani : MonoBehaviour
                 text.enabled = !text.enabled;
             }
         });
-
+        btnCheck.onClick.AddListener(() =>
+        {
+            OpenPage.SetActive(true);
+            OpenCheck.SetActive(false);
+        });
         // //動態生成語言選擇按鈕
         // foreach (var data in Language)
         // {
@@ -697,72 +708,87 @@ public class StartNani : MonoBehaviour
         // Debug.Log("allFriendship:" + sum);
         return sum;
     }
-    //選擇章節顯示切換
-    // public async UniTask SelectOptionSwtich(ServerManager.SaveData saveData)
-    // {
-    //     // SaveData saveData = await YamlLoader.LoadYaml<SaveData>(Application.persistentDataPath + "/SaveData.yaml");
-    //     // SaveData saveData = new SaveData();
-    //     // string? token = await ServerManager.Instance.Login();
-    //     // if (string.IsNullOrEmpty(token))
-    //     // {
-    //     //     Debug.Log("login in failed");
-    //     // }
-    //     // else
-    //     // {
-    //     //     saveData = await ServerManager.Instance.Load(token);
-    //     // }
-    //     saveData.friendship = allFriendship();
-    //     SelectButton C1 = Btn_C1_VB.GetComponent<SelectButton>();
-    //     SelectButton C2 = Btn_C2_VB.GetComponent<SelectButton>();
-    //     SelectButton C3 = Btn_C3_VB.GetComponent<SelectButton>();
-    //     SelectButton C4 = Btn_C4_VB.GetComponent<SelectButton>();
-    //     SelectButton C5 = Btn_C5_VB.GetComponent<SelectButton>();
-    //     foreach (var data in saveData.scriptName)
-    //     {
-    //         if (data.Contains("C1_VB"))
-    //         {
-    //             Btn_C1_VB.interactable = true;
-    //             C1.Disable.SetActive(false);
-    //         }
-    //         if (data.Contains("C2_VB"))
-    //         {
-    //             Btn_C2_VB.interactable = true;
-    //             C2.Disable.SetActive(false);
-    //         }
-    //         if (data.Contains("C3_VB"))
-    //         {
-    //             Btn_C3_VB.interactable = true;
-    //             C3.Disable.SetActive(false);
-    //         }
-    //         if (data.Contains("C4_VB"))
-    //         {
-    //             Btn_C4_VB.interactable = true;
-    //             C4.Disable.SetActive(false);
-    //         }
-    //         if (data.Contains("C5_VB"))
-    //         {
-    //             Btn_C5_VB.interactable = true;
-    //             C5.Disable.SetActive(false);
-    //         }
-    //     }
-    // }
+    public async UniTask SelectOptionSwtich(ServerManager.SaveData saveData)
+    {
+        // SaveData saveData = await YamlLoader.LoadYaml<SaveData>(Application.persistentDataPath + "/SaveData.yaml");
+        // SaveData saveData = new SaveData();
+        // string? token = await ServerManager.Instance.Login();
+        // if (string.IsNullOrEmpty(token))
+        // {
+        //     Debug.Log("login in failed");
+        // }
+        // else
+        // {
+        //     saveData = await ServerManager.Instance.Load(token);
+        // }
+        // saveData.friendship = allFriendship();
+        // SelectButton C1 = Btn_C1_VB.GetComponent<SelectButton>();
+        // SelectButton C2 = Btn_C2_VB.GetComponent<SelectButton>();
+        // SelectButton C3 = Btn_C3_VB.GetComponent<SelectButton>();
+        // SelectButton C4 = Btn_C4_VB.GetComponent<SelectButton>();
+        // SelectButton C5 = Btn_C5_VB.GetComponent<SelectButton>();
+        // foreach (var data in saveData.scriptName)
+        // {
+        //     if (data.Contains("C1_VB"))
+        //     {
+        //         Btn_C1_VB.interactable = true;
+        //         C1.Disable.SetActive(false);
+        //     }
+        //     if (data.Contains("C2_VB"))
+        //     {
+        //         Btn_C2_VB.interactable = true;
+        //         C2.Disable.SetActive(false);
+        //     }
+        //     if (data.Contains("C3_VB"))
+        //     {
+        //         Btn_C3_VB.interactable = true;
+        //         C3.Disable.SetActive(false);
+        //     }
+        //     if (data.Contains("C4_VB"))
+        //     {
+        //         Btn_C4_VB.interactable = true;
+        //         C4.Disable.SetActive(false);
+        //     }
+        //     if (data.Contains("C5_VB"))
+        //     {
+        //         Btn_C5_VB.interactable = true;
+        //         C5.Disable.SetActive(false);
+        //     }
+        // }
+    }
     //存檔
     public async UniTask SaveYaml(string scriptName)
     {
-        // SaveData saveData = await YamlLoader.LoadYaml<SaveData>(Application.persistentDataPath + "/SaveData.yaml");
-        ServerManager.SaveData saveData = await ServerManager.Instance.Load();
-        saveData.friendship = allFriendship();
-        // saveData.friendship = allFriendship();
-        foreach (var data in saveData.scriptName)
+        if (isLoggedIn)
         {
-            if (data == scriptName)
-                return;
-        }
-        saveData.scriptName.Add(scriptName);
-        await ServerManager.Instance.Save(saveData);
-        // await SelectOptionSwtich(saveData);
+            var saveData = await ServerManager.Instance.Load();
 
-        // YamlLoader.SaveYaml(saveData);
+            if (saveData == null)
+            {
+                saveData = new ServerManager.SaveData
+                {
+                    scriptName = new List<string>()
+                };
+            }
+
+            if (saveData.scriptName == null)
+                saveData.scriptName = new List<string>();
+
+            saveData.friendship = allFriendship();
+
+            if (!saveData.scriptName.Contains(scriptName))
+                saveData.scriptName.Add(scriptName);
+
+            saveData.PlatformName = "2"; // 可以用 Application.platform.ToString() 也行
+            saveData.GameIdentifier = "1"; // 也可用 Application.identifier
+
+            await ServerManager.Instance.Save(saveData);
+            await SelectOptionSwtich(saveData);
+        }
+        else
+        {
+            Debug.Log("noLoginMode");
+        }
     }
     // //存檔資料
     // public class SaveData
